@@ -1,453 +1,1386 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SniperFX Academy — Professional Trading</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SniperFX Academy | Precision Forex Education</title>
+  <meta
+    name="description"
+    content="SniperFX Academy helps traders build discipline, risk control, and a repeatable forex trading framework through structured education and mentorship."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #f7fafc;
-      --card: #ffffff;
-      --muted: #6b7280;
-      --accent: #0b76ff;
-      --accent-2: #00c48c;
-      --gradient: linear-gradient(135deg, #0b76ff, #29a3ff);
-      --radius: 16px;
-      --maxw: 1200px;
-      --glass: rgba(255, 255, 255, 0.6);
+      --bg: #0a0a0d;
+      --bg-soft: #121319;
+      --panel: rgba(17, 18, 24, 0.88);
+      --line: rgba(255, 255, 255, 0.08);
+      --text: #f6f2ea;
+      --muted: #b8b0a3;
+      --accent: #e63b2e;
+      --accent-soft: rgba(230, 59, 46, 0.16);
+      --accent-glow: rgba(230, 59, 46, 0.3);
+      --shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+      --radius-lg: 28px;
+      --radius-md: 20px;
+      --max-width: 1180px;
     }
-    [data-theme="dark"] {
-      --bg: #071023;
-      --card: #071526;
-      --muted: #9fb0c8;
-      --accent: #4da6ff;
-      --gradient: linear-gradient(135deg, #163a5a, #0b76ff);
-    }
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: Inter, system-ui;
-      background: var(--bg);
-      color: var(--card-text, #061226);
-      -webkit-font-smoothing: antialiased;
-    }
-    .wrap { max-width: var(--maxw); margin: 0 auto; padding: 22px; }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      gap: 10px;
+    * {
+      box-sizing: border-box;
     }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Manrope", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(230, 59, 46, 0.16), transparent 24%),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.06), transparent 18%),
+        linear-gradient(180deg, #08090d 0%, #0f1117 54%, #0b0c10 100%);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body.is-loading {
+      overflow: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.35), transparent 90%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .page-loader {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background:
+        radial-gradient(circle at top left, rgba(230, 59, 46, 0.2), transparent 24%),
+        radial-gradient(circle at top right, rgba(255, 255, 255, 0.08), transparent 18%),
+        linear-gradient(180deg, #08090d 0%, #0f1117 54%, #0b0c10 100%);
+      transition: opacity 0.65s ease, visibility 0.65s ease;
+    }
+
+    .page-loader.is-hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .page-loader-panel {
+      width: min(420px, 100%);
+      padding: 34px 28px;
+      border-radius: 30px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(16, 18, 24, 0.92);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.42);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-loader-panel::after {
+      content: "";
+      position: absolute;
+      inset: auto -14% -30% auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+      pointer-events: none;
+    }
+
+    .page-loader-logo-wrap {
+      width: 112px;
+      height: 112px;
+      margin: 0 auto 20px;
+      border-radius: 28px;
+      background: linear-gradient(180deg, #f7f2eb 0%, #efe7db 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px;
+      animation: loaderPulse 1.6s ease-in-out infinite;
+      box-shadow: 0 18px 36px rgba(0, 0, 0, 0.24);
+    }
+
+    .page-loader-logo {
+      width: 100%;
+      height: auto;
+    }
+
+    .page-loader-title {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2rem, 5vw, 2.7rem);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .page-loader-title span {
+      color: var(--accent);
+    }
+
+    .page-loader-copy {
+      margin: 12px 0 20px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: 0.96rem;
+    }
+
+    .page-loader-bar {
+      width: 100%;
+      height: 5px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+    }
+
+    .page-loader-bar::after {
+      content: "";
+      display: block;
+      width: 42%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, #ff6a55 0%, #d82d21 100%);
+      animation: loaderSweep 1.25s ease-in-out infinite;
+    }
+
+    @keyframes loaderPulse {
+      0%,
+      100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-4px) scale(1.02);
+      }
+    }
+
+    @keyframes loaderSweep {
+      0% {
+        transform: translateX(-130%);
+      }
+      100% {
+        transform: translateX(320%);
+      }
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .page-shell {
+      width: min(var(--max-width), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      backdrop-filter: blur(18px);
+      background: rgba(8, 9, 13, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 82px;
+    }
+
     .brand {
       display: flex;
       align-items: center;
       gap: 14px;
+      min-width: 0;
     }
-    .brand img {
-      width: 60px;
-      height: 60px;
-      border-radius: 14px;
-      object-fit: cover;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.08);
-    }
-    .brand h1 { font-size: 20px; margin: 0; color: var(--card-text, #061226); }
 
-    nav {
-      display: flex;
-      gap: 16px;
-      align-items: center;
+    .brand-mark {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      padding: 8px;
+      background: #f7f2eb;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      flex-shrink: 0;
     }
-    nav a { color: var(--muted); text-decoration: none; font-weight: 600; }
 
-    .nav-actions { display: flex; gap: 12px; align-items: center; }
-
-    .hamburger {
-      display: none;
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      align-items: center;
-      justify-content: center;
-      border: none;
-      background: transparent;
-    }
-    .hamburger span {
+    .brand-copy span {
       display: block;
-      width: 22px; height: 2px;
-      background: var(--muted);
-      border-radius: 2px;
-      position: relative;
+      font-size: 0.75rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 4px;
     }
-    .hamburger span::before, .hamburger span::after {
+
+    .brand-copy strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.25rem;
+      line-height: 1.1;
+    }
+
+    .desktop-nav {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .desktop-nav a {
+      font-size: 0.96rem;
+      color: var(--muted);
+      transition: color 0.2s ease;
+    }
+
+    .desktop-nav a:hover,
+    .desktop-nav a:focus-visible {
+      color: var(--text);
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-toggle {
+      display: none;
+      width: 48px;
+      height: 48px;
+      border: 1px solid var(--line);
+      background: transparent;
+      color: var(--text);
+      border-radius: 14px;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .menu-toggle span,
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      display: block;
+      width: 20px;
+      height: 2px;
+      border-radius: 999px;
+      background: currentColor;
+      margin: 0 auto;
+      position: relative;
+      transition: transform 0.25s ease, opacity 0.25s ease;
+    }
+
+    .menu-toggle span::before,
+    .menu-toggle span::after {
       content: "";
       position: absolute;
-      width: 22px; height: 2px;
-      background: var(--muted);
-      border-radius: 2px;
+      left: 0;
     }
-    .hamburger span::before { top: -7px; }
-    .hamburger span::after { top: 7px; }
+
+    .menu-toggle span::before {
+      top: -6px;
+    }
+
+    .menu-toggle span::after {
+      top: 6px;
+    }
+
+    .menu-toggle[aria-expanded="true"] span {
+      background: transparent;
+    }
+
+    .menu-toggle[aria-expanded="true"] span::before {
+      top: 0;
+      transform: rotate(45deg);
+    }
+
+    .menu-toggle[aria-expanded="true"] span::after {
+      top: 0;
+      transform: rotate(-45deg);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 0 22px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+      font-family: inherit;
+      font-size: 0.95rem;
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      transform: translateY(-1px);
+    }
+
+    .button-primary {
+      color: #fff3ef;
+      background: linear-gradient(135deg, #ff5d47 0%, #d82d21 100%);
+      box-shadow: 0 18px 34px rgba(216, 45, 33, 0.28);
+    }
+
+    .button-secondary {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.04);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .mobile-panel {
+      display: none;
+      padding: 0 0 20px;
+    }
+
+    .mobile-panel-inner {
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      background: rgba(15, 17, 22, 0.96);
+      padding: 18px;
+      display: grid;
+      gap: 14px;
+      box-shadow: var(--shadow);
+    }
+
+    .mobile-panel a {
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    main {
+      padding: 42px 0 64px;
+    }
 
     .hero {
-      margin-top: 28px;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 30px;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 28px;
+      align-items: stretch;
+      margin-top: 18px;
+    }
+
+    .hero-panel,
+    .hero-side,
+    .section-card,
+    .pricing-card,
+    .process-card,
+    .cta-banner {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: var(--panel);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-panel {
+      padding: 40px;
+      min-height: 540px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .hero-panel::after,
+    .hero-side::after,
+    .section-card::after,
+    .pricing-card::after,
+    .process-card::after,
+    .cta-banner::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -24% auto;
+      width: 220px;
+      height: 220px;
+      background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .eyebrow {
+      display: inline-flex;
       align-items: center;
-    }
-    .hero-card {
-      background: var(--card);
-      padding: 28px;
-      border-radius: 18px;
-      border: 1px solid rgba(0,0,0,0.04);
-      box-shadow: 0 18px 50px rgba(10,20,40,0.06);
-      overflow: hidden;
-      animation: fadeUp 0.7s ease both;
-    }
-    .hero-card h2 { font-family: Rajdhani; font-size: 36px; margin-bottom: 10px; }
-    .hero-card p { color: var(--muted); margin-bottom: 18px; }
-    .actions { display: flex; gap: 12px; flex-wrap: wrap; }
-    .btn {
-      padding: 10px 16px;
-      border-radius: 12px;
-      border: none;
-      cursor: pointer;
+      gap: 10px;
+      min-height: 38px;
+      padding: 0 14px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      font-size: 0.73rem;
       font-weight: 700;
-    }
-    .btn-primary { background: var(--gradient); color: white; }
-    .btn-ghost { background: transparent; border: 1px solid rgba(0,0,0,0.06); color: var(--muted); }
-
-    .pulse { animation: pulse 3s infinite; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: none; }
-    }
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.02); }
-      100% { transform: scale(1); }
+      width: fit-content;
     }
 
-    .hero-image {
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid #e6eef6;
-      box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-      animation: pulse 3s infinite;
+    .hero-copy h1 {
+      margin: 22px 0 18px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(2.7rem, 6vw, 5rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
     }
-    .hero-image {
-  border-radius: 14px;
-  overflow: hidden;
-  border: 1px solid #e6eef6;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
-  max-width: 400px;   /* limit width */
-  margin: 0 auto;     /* center horizontally */
-}
 
-.hero-image img {
-  width: 100%;
-  height: auto;
-  display: block;
-}
+    .hero-copy p {
+      margin: 0;
+      max-width: 580px;
+      font-size: 1.08rem;
+      line-height: 1.8;
+      color: var(--muted);
+    }
 
-    .hero-image img { display: block; width: 100%; height: auto; }
-
-    .grid {
-      display: grid;
-      grid-template-columns: 1fr 360px;
-      gap: 22px;
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
       margin-top: 28px;
     }
 
-    .card {
-      background: var(--card);
-      padding: 18px;
-      border-radius: 14px;
-      border: 1px solid #e6eef6;
-    }
-
-    .pricing {
+    .hero-highlights {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
-      gap: 16px;
-      margin-top: 14px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 34px;
     }
-    #loader {
-  position: fixed;
-  inset: 0;
-  background: var(--bg);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  flex-direction: column;
-}
 
-.loader-content {
-  text-align: center;
-}
-
-.loader-logo {
-  width: 80px;
-  height: 80px;
-  margin-bottom: 12px;
-  animation: logoBounce 1.2s ease-in-out infinite;
-}
-
-@keyframes logoBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-12px); }
-}
-
-.loader-text span {
-  display: inline-block;
-  font-family: Rajdhani, sans-serif;
-  font-weight: 700;
-  font-size: 28px;
-  color: var(--accent);
-  animation: letterBounce 1s ease-in-out infinite;
-}
-
-.loader-text span:nth-child(1) { animation-delay: 0s; }
-.loader-text span:nth-child(2) { animation-delay: 0.2s; }
-.loader-text span:nth-child(3) { animation-delay: 0.3s; }
-.loader-text span:nth-child(4) { animation-delay: 0.4s; }
-.loader-text span:nth-child(5) { animation-delay: 0.5s; }
-.loader-text span:nth-child(6) { animation-delay: 0.6s; }
-.loader-text span:nth-child(7) { animation-delay: 0.7s; }
-.loader-text span:nth-child(8) { animation-delay: 0.8s; }
-
-@keyframes letterBounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-    .price-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.7));
+    .highlight-chip {
       padding: 18px;
-      border-radius: 12px;
-      border: 1px solid #e6eef6;
-    }
-    .price-card strong { font-size: 20px; display: block; margin-top: 8px; }
-    .price-cta { margin-top: 12px; }
-
-    .faq-item { border-top: 1px solid #eef4fb; padding: 12px 0; }
-    .faq-q { display: flex; justify-content: space-between; cursor: pointer; }
-    .faq-a { margin-top: 8px; color: var(--muted); display: none; }
-    .faq-item.open .faq-a { display: block; }
-
-    .contact-form { display: grid; gap: 10px; margin-top: 10px; }
-    .contact-form input, .contact-form textarea {
-      padding: 10px;
-      border-radius: 10px;
-      border: 1px solid #e6eef6;
-      width: 100%;
-      font-size: 14px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
 
-    footer {
-      text-align: center;
-      margin-top: 40px;
+    .highlight-chip strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.98rem;
+    }
+
+    .highlight-chip span {
+      display: block;
       color: var(--muted);
-      padding: 26px 0;
-      font-size: 14px;
+      font-size: 0.92rem;
+      line-height: 1.6;
     }
 
-    @media(max-width: 980px) {
-      .grid { grid-template-columns: 1fr; }
-      nav { display: none; }
-      .hamburger { display: flex; }
-      .mobile-nav {
-        display: none;
-        position: fixed;
-        inset: 68px 12px 12px 12px;
-        background: var(--card);
-        border-radius: 12px;
-        padding: 12px;
-        box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+    .hero-side {
+      padding: 28px;
+      display: grid;
+      gap: 18px;
+      align-content: start;
+    }
+
+    .logo-stage {
+      padding: 28px;
+      border-radius: 26px;
+      background: linear-gradient(180deg, #f7f2eb 0%, #efe7db 100%);
+      min-height: 280px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .signal-card,
+    .bullet-list,
+    .pricing-list {
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(255, 255, 255, 0.03);
+      padding: 22px;
+    }
+
+    .signal-card small,
+    .section-card small,
+    .pricing-card small,
+    .process-card small {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--muted);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+
+    .signal-card h2 {
+      margin: 0;
+      font-size: 1.4rem;
+      line-height: 1.35;
+      font-family: "Space Grotesk", sans-serif;
+    }
+
+    .signal-grid {
+      display: grid;
+      gap: 14px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .signal-item {
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+    }
+
+    .signal-item strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 0.98rem;
+    }
+
+    .signal-item span {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .section-stack {
+      display: grid;
+      gap: 24px;
+      margin-top: 28px;
+    }
+
+    .section-card {
+      padding: 30px;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 22px;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1.08;
+    }
+
+    .section-heading p {
+      margin: 0;
+      max-width: 470px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .three-up {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .info-card {
+      padding: 22px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.035);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .info-card .index {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--accent-soft);
+      color: #ffe6e2;
+      font-weight: 800;
+      margin-bottom: 18px;
+    }
+
+    .info-card h3 {
+      margin: 0 0 10px;
+      font-size: 1.1rem;
+    }
+
+    .info-card p,
+    .bullet-list li,
+    .pricing-list li,
+    .faq-answer,
+    .foot-note {
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .bullet-layout {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 18px;
+    }
+
+    .bullet-list ul,
+    .pricing-list ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .bullet-list li,
+    .pricing-list li {
+      position: relative;
+      padding-left: 28px;
+    }
+
+    .bullet-list li::before,
+    .pricing-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 11px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff6752, #d72f24);
+      box-shadow: 0 0 0 6px rgba(230, 59, 46, 0.12);
+    }
+
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .pricing-card {
+      padding: 28px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .pricing-card.featured {
+      border-color: rgba(230, 59, 46, 0.45);
+      background:
+        linear-gradient(180deg, rgba(230, 59, 46, 0.12), rgba(255, 255, 255, 0.03)),
+        rgba(20, 21, 28, 0.92);
+      transform: translateY(-8px);
+    }
+
+    .pricing-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .pricing-card h3 {
+      margin: 0;
+      font-size: 1.35rem;
+    }
+
+    .price {
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 2.35rem;
+      line-height: 1;
+      margin: 0;
+    }
+
+    .price span {
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-family: "Manrope", sans-serif;
+      font-weight: 600;
+      margin-left: 8px;
+    }
+
+    .process-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .process-card {
+      padding: 28px;
+    }
+
+    .process-card strong {
+      display: block;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 2rem;
+      line-height: 1;
+      margin-bottom: 18px;
+      color: #ffe0dc;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 14px;
+    }
+
+    .faq-item {
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.03);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      width: 100%;
+      padding: 20px 22px;
+      background: transparent;
+      color: var(--text);
+      border: 0;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      font: inherit;
+      font-weight: 700;
+      text-align: left;
+    }
+
+    .faq-icon {
+      font-size: 1.4rem;
+      color: var(--accent);
+      transition: transform 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .faq-answer {
+      max-height: 0;
+      overflow: hidden;
+      padding: 0 22px;
+      transition: max-height 0.3s ease, padding-bottom 0.3s ease;
+    }
+
+    .faq-item.open .faq-answer {
+      max-height: 200px;
+      padding-bottom: 22px;
+    }
+
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+    }
+
+    .cta-banner {
+      margin-top: 24px;
+      padding: 34px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      background:
+        linear-gradient(135deg, rgba(230, 59, 46, 0.18), rgba(255, 255, 255, 0.04)),
+        rgba(17, 18, 24, 0.96);
+    }
+
+    .cta-banner h2 {
+      margin: 0 0 10px;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: clamp(1.8rem, 3.3vw, 2.8rem);
+      line-height: 1.08;
+    }
+
+    .cta-banner p {
+      margin: 0;
+      color: var(--muted);
+      max-width: 520px;
+      line-height: 1.75;
+    }
+
+    .site-footer {
+      padding: 28px 0 42px;
+      color: var(--muted);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding-top: 18px;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .footer-row strong {
+      color: var(--text);
+    }
+
+    .legal {
+      max-width: 760px;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 1080px) {
+      .hero,
+      .bullet-layout,
+      .pricing-grid,
+      .process-grid,
+      .three-up {
+        grid-template-columns: 1fr;
       }
-      .mobile-nav.open { display: block; }
+
+      .hero-panel {
+        min-height: auto;
+      }
+
+      .pricing-card.featured {
+        transform: none;
+      }
+
+      .signal-grid,
+      .hero-highlights {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .desktop-nav,
+      .header-actions .button-secondary {
+        display: none;
+      }
+
+      .menu-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .mobile-panel[data-open="true"] {
+        display: block;
+      }
+
+      .hero-panel,
+      .hero-side,
+      .section-card,
+      .pricing-card,
+      .process-card,
+      .cta-banner {
+        padding: 24px;
+      }
+
+      .section-heading {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .cta-banner {
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .footer-row {
+        flex-direction: column;
+        align-items: start;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .page-shell {
+        width: min(var(--max-width), calc(100% - 20px));
+      }
+
+      .brand-mark {
+        width: 56px;
+        height: 56px;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(2.4rem, 14vw, 3.6rem);
+      }
+
+      .signal-grid,
+      .hero-highlights {
+        grid-template-columns: 1fr;
+      }
+
+      .header-actions .button-primary {
+        display: none;
+      }
+
+      .hero-actions .button,
+      .pricing-card .button,
+      .mobile-panel .button {
+        width: 100%;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
-<body data-theme="light">
-  <!-- Branded Loader -->
-<div id="loader">
-  <div class="loader-content">
-    <img src="image/sniper.png" alt="SniperFX Logo" class="loader-logo">
-    <div class="loader-text">
-      <span>S</span><span>n</span><span>i</span><span>p</span><span>e</span><span>r</span><span>F</span><span>X</span>
+<body class="is-loading">
+  <div class="page-loader" id="pageLoader" aria-hidden="true">
+    <div class="page-loader-panel">
+      <div class="page-loader-logo-wrap">
+        <img class="page-loader-logo" src="image/sniper.png" alt="SniperFX logo">
+      </div>
+      <p class="page-loader-title">Sniper<span>FX</span></p>
+      <p class="page-loader-copy">Preparing your trading experience.</p>
+      <div class="page-loader-bar"></div>
     </div>
   </div>
-</div>
 
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <!-- Replace logo URL below with your logo if you have one -->
-        <img src="image/sniper.png" alt="SniperFX logo">
-        <h1>SniperFX Academy</h1>
-      </div>
+  <header class="site-header">
+    <div class="page-shell header-inner">
+      <a class="brand" href="#top" aria-label="SniperFX Academy home">
+        <img class="brand-mark" src="image/sniper.png" alt="SniperFX logo">
+        <div class="brand-copy">
+          <span>Forex Education</span>
+          <strong>SniperFX Academy</strong>
+        </div>
+      </a>
 
-      <nav aria-label="Main navigation">
+      <nav class="desktop-nav" aria-label="Primary">
         <a href="#about">About</a>
-        <a href="#courses">Courses</a>
-        <a href="#vip">VIP</a>
+        <a href="#programs">Programs</a>
         <a href="#pricing">Pricing</a>
         <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
       </nav>
 
-      <div class="nav-actions">
-        
-        <button class="btn btn-primary" onclick="openWhatsAppJoin()">Join VIP</button>
-        <button class="hamburger" id="hamburger" aria-label="Open menu"><span></span></button>
+      <div class="header-actions">
+        <a class="button button-secondary" href="#pricing">View Plans</a>
+        <button class="button button-primary" type="button" onclick="openWhatsAppJoin()">Join VIP</button>
+        <button class="menu-toggle" id="menuToggle" type="button" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobilePanel">
+          <span></span>
+        </button>
       </div>
-    </header>
-
-    
-
-    <section class="hero">
-      <div class="hero-card">
-        <h2>Master the Market with Precision</h2>
-        <p>Structured mentorship, clear strategies, and real market edge — designed for traders who want consistent results.</p>
-        <div class="actions">
-          <button class="btn btn-primary" onclick="openWhatsAppJoin()">Get VIP Access</button>
-          <button class="btn btn-ghost" onclick="openTelegram()">Join Free Telegram</button>
-        </div>
-        <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap">
-          <div style="background:var(--card); padding:12px; border-radius:12px; border:1px solid #eef6ff">Trusted education</div>
-          <div style="background:var(--card); padding:12px; border-radius:12px; border:1px solid #eef6ff">1:1 mentorship</div>
-          <div style="background:var(--card); padding:12px; border-radius:12px; border:1px solid #eef6ff">Prop-firm training</div>
-        </div>
-      </div>
-      <div class="hero-image">
-        <!-- Example online image from Pixabay / Unsplash -->
-        <img src="image/sniper.png" alt="Forex trading hero">
-      </div>
-    </section>
-
-    <div class="grid">
-      <div>
-        <section id="about" class="card">
-          <h3>About SniperFX</h3>
-          <p style="color:var(--muted)">We teach price‑action strategies, risk control, and trading psychology so traders can build a repeatable edge.</p>
-        </section>
-
-        <section id="courses" class="card" style="margin-top:16px">
-          <h3>Courses & Mentorship</h3>
-          <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:12px; margin-top:12px">
-            <div class="card">
-              <h4>Foundations</h4>
-              <p style="color:var(--muted)">Basics of charts, entries, and market structure.</p>
-            </div>
-            <div class="card">
-              <h4>Sniper Systems</h4>
-              <p style="color:var(--muted)">Advanced precision entries and institutional concepts.</p>
-            </div>
-            <div class="card">
-              <h4>Prop Firm Prep</h4>
-              <p style="color:var(--muted)">Rules, psychology, and plan to pass funded challenges.</p>
-            </div>
-          </div>
-        </section>
-
-        <section id="faq" class="card" style="margin-top:16px">
-          <h3>FAQ</h3>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)"><strong>How do I join VIP?</strong><span>+</span></div>
-            <div class="faq-a">Click “Join VIP” or message us on WhatsApp; we'll send onboarding & payment steps.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)"><strong>Do you offer 1:1 coaching?</strong><span>+</span></div>
-            <div class="faq-a">Yes — we provide personalized mentorship packages tailored to your goals.</div>
-          </div>
-          <div class="faq-item">
-            <div class="faq-q" onclick="toggleFaq(this)"><strong>Can I get a refund?</strong><span>+</span></div>
-            <div class="faq-a">Refund policy depends on the package — contact support for details.</div>
-          </div>
-        </section>
-      </div>
-
-      <aside>
-        <div class="card" id="pricing">
-          <h3>Pricing</h3>
-          <div class="pricing">
-            <div class="price-card">
-              <div style="font-size:14px;color:var(--muted)">Starter</div>
-              <strong>$50 / month</strong>
-              <div style="color:var(--muted);margin-top:8px">Course access + community</div>
-              <div class="price-cta"><button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="openWhatsAppJoin('I want Starter plan')">Choose Starter</button></div>
-            </div>
-            <div class="price-card" style="border:2px solid rgba(11,118,255,0.14)">
-              <div style="font-size:14px;color:var(--muted)">Pro</div>
-              <strong>$70 / month</strong>
-              <div style="color:var(--muted);margin-top:8px">Full course, & group mentorship</div>
-              <div class="price-cta"><button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="openWhatsAppJoin('I want Pro plan')">Choose Pro</button></div>
-            </div>
-            <div class="price-card">
-              <div style="font-size:14px;color:var(--muted)">VIP</div>
-              <strong>$500 / yearly</strong>
-              <div style="color:var(--muted);margin-top:8px">1:1 mentorship & priority support</div>
-              <div class="price-cta"><button class="btn btn-primary" style="width:100%; margin-top:12px" onclick="openWhatsAppJoin('I want VIP plan')">Choose VIP</button></div>
-            </div>
-          </div>
-
-          
-
-        <div class="card" style="margin-top:12px">
-          <h4>Mentorship</h4>
-          <p style="color:var(--muted)">One‑on‑one coaching, trade reviews & a tailored plan.</p>
-          <button class="btn btn-ghost" style="width:100%; margin-top:12px" onclick="openWhatsAppJoin('I want mentorship details')">Request Mentor</button>
-        </div>
-      </aside>
     </div>
 
-    <footer>© SniperFX Academy — Professional Trading Education</footer>
-  </div>
+    <div class="page-shell mobile-panel" id="mobilePanel" data-open="false">
+      <div class="mobile-panel-inner">
+        <a href="#about">About</a>
+        <a href="#programs">Programs</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact">Contact</a>
+        <button class="button button-primary" type="button" onclick="openWhatsAppJoin()">Start on WhatsApp</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+    <div class="page-shell">
+      <section class="hero" aria-labelledby="hero-title">
+        <article class="hero-panel">
+          <div class="hero-copy">
+            <div class="eyebrow">Precision. Discipline. Execution.</div>
+            <h1 id="hero-title">A trading academy built for structure, not hype.</h1>
+            <p>
+              SniperFX Academy helps traders sharpen market reading, manage risk with discipline,
+              and follow a repeatable plan. The focus is practical education, guided mentorship,
+              and a calmer decision-making process you can trust.
+            </p>
+
+            <div class="hero-actions">
+              <button class="button button-primary" type="button" onclick="openWhatsAppJoin()">Get VIP Access</button>
+              <button class="button button-secondary" type="button" onclick="openTelegram()">Join Free Telegram</button>
+            </div>
+          </div>
+
+          <div class="hero-highlights">
+            <div class="highlight-chip">
+              <strong>Market structure clarity</strong>
+              <span>Learn how to read setups with more patience and less guesswork.</span>
+            </div>
+            <div class="highlight-chip">
+              <strong>Risk-first framework</strong>
+              <span>Build consistency through position sizing, planning, and control.</span>
+            </div>
+            <div class="highlight-chip">
+              <strong>Mentorship support</strong>
+              <span>Get accountability, trade feedback, and direct guidance as you improve.</span>
+            </div>
+          </div>
+        </article>
+
+        <aside class="hero-side" aria-label="Program overview">
+          <div class="logo-stage">
+            <img src="image/sniper.png" alt="SniperFX Trading brand mark">
+          </div>
+
+          <div class="signal-card">
+            <small>What members get</small>
+            <h2>Structured learning with a professional trading tone from day one.</h2>
+          </div>
+
+          <div class="signal-grid">
+            <div class="signal-item">
+              <strong>Clear roadmap</strong>
+              <span>From beginner foundations to advanced execution.</span>
+            </div>
+            <div class="signal-item">
+              <strong>VIP access</strong>
+              <span>Priority support and direct mentorship guidance.</span>
+            </div>
+            <div class="signal-item">
+              <strong>Telegram community</strong>
+              <span>Stay connected to updates, discussion, and announcements.</span>
+            </div>
+            <div class="signal-item">
+              <strong>Trader mindset</strong>
+              <span>Develop routines that support discipline and confidence.</span>
+            </div>
+          </div>
+        </aside>
+      </section>
+
+      <div class="section-stack">
+        <section class="section-card" id="about">
+          <div class="section-heading">
+            <div>
+              <small>About the academy</small>
+              <h2>Designed for traders who want a process they can repeat.</h2>
+            </div>
+            <p>
+              The goal is not to overwhelm you with noise. SniperFX Academy is positioned as a guided
+              environment where traders can understand setups, respect risk, and improve through structure.
+            </p>
+          </div>
+
+          <div class="three-up">
+            <article class="info-card">
+              <div class="index">01</div>
+              <h3>Strategy with context</h3>
+              <p>Lessons are focused on how to read the market and why a setup matters before taking an entry.</p>
+            </article>
+            <article class="info-card">
+              <div class="index">02</div>
+              <h3>Execution with discipline</h3>
+              <p>Members are encouraged to trade from a plan, not emotion, with risk management built into the process.</p>
+            </article>
+            <article class="info-card">
+              <div class="index">03</div>
+              <h3>Guidance with accountability</h3>
+              <p>Coaching, reviews, and community support help traders stay focused on steady improvement.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-card" id="programs">
+          <div class="section-heading">
+            <div>
+              <small>Programs</small>
+              <h2>What the learning experience is built around.</h2>
+            </div>
+            <p>
+              The academy structure now reads more professionally because it is grouped around outcomes:
+              fundamentals, execution, challenge preparation, and mentorship.
+            </p>
+          </div>
+
+          <div class="bullet-layout">
+            <div class="bullet-list">
+              <small>Core training pillars</small>
+              <ul>
+                <li>Foundations in charts, market structure, entries, and session awareness.</li>
+                <li>Sniper systems focused on higher-quality setups and better timing.</li>
+                <li>Prop-firm preparation for rules, discipline, and performance consistency.</li>
+                <li>Trading psychology and routine building to support better decisions.</li>
+              </ul>
+            </div>
+
+            <div class="bullet-list">
+              <small>Mentorship support</small>
+              <ul>
+                <li>Trade review guidance that helps traders understand mistakes without confusion.</li>
+                <li>Direct WhatsApp access for onboarding and plan selection.</li>
+                <li>Telegram community for updates, visibility, and ongoing engagement.</li>
+                <li>VIP mentorship for traders who want closer support and accountability.</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="section-card" id="pricing">
+          <div class="section-heading">
+            <div>
+              <small>Pricing</small>
+              <h2>Choose the access level that matches your current stage.</h2>
+            </div>
+            <p>
+              Each plan is designed to make the next step clear, whether you are just getting started,
+              building momentum, or looking for more direct support.
+            </p>
+          </div>
+
+          <div class="pricing-grid">
+            <article class="pricing-card">
+              <div class="pricing-label">
+                <h3>Starter</h3>
+                <span class="tag">Entry</span>
+              </div>
+              <p class="price">$50 <span>/ month</span></p>
+              <div class="pricing-list">
+                <ul>
+                  <li>Course access for core trading foundations.</li>
+                  <li>Community support and academy updates.</li>
+                  <li>A solid starting point for newer traders.</li>
+                </ul>
+              </div>
+              <button class="button button-secondary" type="button" onclick="openWhatsAppJoin('Hello, I want the Starter plan')">Choose Starter</button>
+            </article>
+
+            <article class="pricing-card featured">
+              <div class="pricing-label">
+                <h3>Pro</h3>
+                <span class="tag">Popular</span>
+              </div>
+              <p class="price">$70 <span>/ month</span></p>
+              <div class="pricing-list">
+                <ul>
+                  <li>Full course access with deeper strategy coverage.</li>
+                  <li>Group mentorship and stronger trader accountability.</li>
+                  <li>Best fit for traders ready to level up consistently.</li>
+                </ul>
+              </div>
+              <button class="button button-primary" type="button" onclick="openWhatsAppJoin('Hello, I want the Pro plan')">Choose Pro</button>
+            </article>
+
+            <article class="pricing-card" id="vip">
+              <div class="pricing-label">
+                <h3>VIP</h3>
+                <span class="tag">Premium</span>
+              </div>
+              <p class="price">$500 <span>/ yearly</span></p>
+              <div class="pricing-list">
+                <ul>
+                  <li>Priority support with one-to-one mentorship direction.</li>
+                  <li>Closer feedback and more personalized attention.</li>
+                  <li>Built for traders seeking a tailored improvement path.</li>
+                </ul>
+              </div>
+              <button class="button button-secondary" type="button" onclick="openWhatsAppJoin('Hello, I want the VIP plan')">Choose VIP</button>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-heading">
+            <div>
+              <small>How it works</small>
+              <h2>A simpler client journey that feels more premium.</h2>
+            </div>
+            <p>
+              This flow turns the page from a basic flyer into a more confident business landing page with clear next steps.
+            </p>
+          </div>
+
+          <div class="process-grid">
+            <article class="process-card">
+              <small>Step one</small>
+              <strong>01</strong>
+              <h3>Choose your plan</h3>
+              <p class="foot-note">Review the offer that fits your level, then use the WhatsApp button to begin.</p>
+            </article>
+            <article class="process-card">
+              <small>Step two</small>
+              <strong>02</strong>
+              <h3>Get onboarded</h3>
+              <p class="foot-note">You receive onboarding details, access instructions, and the right support path.</p>
+            </article>
+            <article class="process-card" id="contact">
+              <small>Step three</small>
+              <strong>03</strong>
+              <h3>Start improving</h3>
+              <p class="foot-note">Move into lessons, mentorship, and community support with more clarity and direction.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="section-card" id="faq">
+          <div class="section-heading">
+            <div>
+              <small>FAQ</small>
+              <h2>Common questions, answered more clearly.</h2>
+            </div>
+            <p>
+              A few essentials for new members who want to understand how access, support, and expectations work.
+            </p>
+          </div>
+
+          <div class="faq-list">
+            <div class="faq-item open">
+              <button class="faq-question" type="button" aria-expanded="true">
+                <span>How do I join SniperFX VIP?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Click any VIP or WhatsApp button on the page. You will be redirected to WhatsApp to request onboarding and payment details.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Do you offer one-to-one coaching?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Yes. The VIP offer is positioned as the premium option for traders who want more direct support and closer mentorship.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Is there a free community option?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                Yes. Visitors can join the free Telegram channel to stay connected before moving into a paid plan.
+              </div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false">
+                <span>Is this financial advice?</span>
+                <span class="faq-icon">+</span>
+              </button>
+              <div class="faq-answer">
+                No. The academy is presented as educational support only. Trading carries risk, and every member should make independent decisions responsibly.
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-banner" aria-labelledby="cta-title">
+          <div>
+            <h2 id="cta-title">Join the community and start trading with more structure.</h2>
+            <p>
+              Connect on WhatsApp for plan details or join Telegram to stay close to the academy before choosing your next step.
+            </p>
+          </div>
+
+          <div class="hero-actions">
+            <button class="button button-primary" type="button" onclick="openWhatsAppJoin()">Talk on WhatsApp</button>
+            <button class="button button-secondary" type="button" onclick="openTelegram()">Open Telegram</button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-row">
+      <div>
+        <strong>SniperFX Academy</strong>
+        <p class="legal">Forex trading education and mentorship for traders who want a clearer process, stronger discipline, and practical guidance.</p>
+      </div>
+      <p class="legal">Risk disclosure: Trading involves substantial risk. This website is for educational purposes only and should not be interpreted as financial advice.</p>
+    </div>
+  </footer>
 
   <script>
-    
-window.addEventListener('load', () => {
-  const loader = document.getElementById('loader');
-  loader.style.opacity = '0';
-  loader.style.transition = 'opacity 2.5s ease';
-  setTimeout(() => loader.style.display = 'none', 500);
-});
+    const WHATSAPP_NUMBER = "2347046557627";
+    const TELEGRAM_URL = "https://t.me/+2IO4DjF7-ZUxZDU8";
+    const pageLoader = document.getElementById("pageLoader");
 
+    function hidePageLoader() {
+      if (!pageLoader || pageLoader.classList.contains("is-hidden")) {
+        document.body.classList.remove("is-loading");
+        return;
+      }
 
-    const WHATSAPP_NUMBER = '2347046557627';
-    function openWhatsAppJoin(msg = 'Hello, I want to join SniperFX VIP') {
-      const text = encodeURIComponent(msg);
-      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, '_blank');
-    }
-    function openTelegram(){
-      window.open('https://t.me/+2IO4DjF7-ZUxZDU8','_blank');
+      pageLoader.classList.add("is-hidden");
+      document.body.classList.remove("is-loading");
     }
 
-    const hamburger = document.getElementById('hamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    function closeMobile(){ mobileNav.classList.remove('open'); }
-    hamburger && hamburger.addEventListener('click', () => {
-      mobileNav.classList.toggle('open');
+    if (document.readyState === "complete") {
+      setTimeout(hidePageLoader, 900);
+    } else {
+      window.addEventListener("load", () => {
+        setTimeout(hidePageLoader, 900);
+      });
+      window.setTimeout(hidePageLoader, 2200);
+    }
+
+    function openWhatsAppJoin(message = "Hello, I want to join SniperFX Academy.") {
+      const text = encodeURIComponent(message);
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${text}`, "_blank", "noopener");
+    }
+
+    function openTelegram() {
+      window.open(TELEGRAM_URL, "_blank", "noopener");
+    }
+
+    const menuToggle = document.getElementById("menuToggle");
+    const mobilePanel = document.getElementById("mobilePanel");
+    const mobileLinks = mobilePanel.querySelectorAll("a");
+
+    menuToggle.addEventListener("click", () => {
+      const isOpen = menuToggle.getAttribute("aria-expanded") === "true";
+      menuToggle.setAttribute("aria-expanded", String(!isOpen));
+      mobilePanel.setAttribute("data-open", String(!isOpen));
     });
 
-    const themeToggle = document.getElementById('themeToggle');
-    themeToggle.addEventListener('click', () => {
-      const isDark = document.body.getAttribute('data-theme') === 'dark';
-      document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
-      themeToggle.textContent = isDark ? '🌙' : '☀️';
+    mobileLinks.forEach((link) => {
+      link.addEventListener("click", () => {
+        menuToggle.setAttribute("aria-expanded", "false");
+        mobilePanel.setAttribute("data-open", "false");
+      });
     });
 
-    function toggleFaq(el) {
-      const item = el.parentElement;
-      item.classList.toggle('open');
-    }
+    document.querySelectorAll(".faq-question").forEach((button) => {
+      button.addEventListener("click", () => {
+        const item = button.closest(".faq-item");
+        const isOpen = item.classList.contains("open");
 
-    
+        document.querySelectorAll(".faq-item").forEach((faq) => {
+          faq.classList.remove("open");
+          faq.querySelector(".faq-question").setAttribute("aria-expanded", "false");
+        });
 
-    document.querySelectorAll('.mobile-nav a').forEach(a => a.addEventListener('click', closeMobile));
+        if (!isOpen) {
+          item.classList.add("open");
+          button.setAttribute("aria-expanded", "true");
+        }
+      });
+    });
   </script>
 </body>
 </html>
